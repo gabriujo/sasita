@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¿Quieres salir conmigo, Sasita?</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+      @keyframes float {
+        0% {
+          opacity: 1;
+          transform: translateY(0vh) rotate(0deg);
+        }
+
+        100% {
+          opacity: 0;
+          transform: translateY(-100vh) rotate(360deg);
+        }
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #fbcfe8 0%,
+          #ff96cc 50%,
+          #ff6e8d 100%
+        );
+        font-family: "Poppins", sans-serif;
+        overflow: hidden;
+        text-wrap: balance;
+        touch-action: manipulation;
+      }
+
+      .heart {
+        animation: float linear infinite;
+        bottom: -10vh;
+        color: #f43f5e;
+        pointer-events: none;
+        position: absolute;
+        user-select: none;
+      }
+    </style>
+  </head>
+
+  <body class="h-screen w-screen flex items-center justify-center relative p-4">
+    <div
+      id="hearts-container"
+      class="absolute inset-0 overflow-hidden pointer-events-none z-0"
+    ></div>
+
+    <div
+      id="question-card"
+      class="relative z-10 bg-white/90 p-12 rounded-3xl shadow-2xl max-w-xl w-full text-center"
+    >
+      <div class="mb-6 flex justify-center">
+        <div
+          class="w-24 h-24 bg-pink-100 rounded-full flex items-center justify-center text-5xl shadow-inner animate-bounce"
+        >
+          💖
+        </div>
+      </div>
+
+      <h1 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-3">
+        ¿Quieres salir conmigo, Sasita?
+      </h1>
+
+      <p class="text-slate-500 text-sm mb-8">
+        Prometo risas, buena compañía, quererte bonito y muchos "mua mua" ✨
+      </p>
+
+      <div
+        class="flex items-center justify-center gap-6 relative w-full flex-col sm:flex-row"
+      >
+        <button
+          id="yes-button"
+          class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold px-8 py-3.5 rounded-full shadow-lg shadow-pink-500/30 transform hover:scale-110 active:scale-95 transition-all duration-300 z-20 cursor-pointer"
+        >
+          ¡Sí, obvio! 😍
+        </button>
+
+        <button
+          id="no-button"
+          class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-8 py-3.5 rounded-full shadow-md transition-colors duration-200 z-10 cursor-default"
+        >
+          No, calvo 😞
+        </button>
+      </div>
+    </div>
+
+    <div
+      id="celebration-card"
+      class="hidden relative z-10 bg-white/90 p-12 rounded-3xl shadow-2xl max-w-xl w-full text-center"
+    >
+      <div class="mb-6 flex justify-center">
+        <div
+          class="w-24 h-24 bg-pink-100 rounded-full flex items-center justify-center text-5xl shadow-inner animate-bounce"
+        >
+          🥳
+        </div>
+      </div>
+
+      <h1 class="text-2xl sm:text-3xl font-bold text-rose-600 mb-3">
+        ¡Sabía que dirías que sí, Sasita! 🥰
+      </h1>
+
+      <p class="text-slate-500 text-sm mb-8">
+        Prepárate para una ensalada de besos. ¡Me haces el más feliz del
+        universo entero! ❤️
+      </p>
+
+      <img
+        class="inline-block rounded-3xl"
+        src="https://media.tenor.com/jNPkO5whg_QAAAAM/cat-dancing.gif"
+        alt="Gato rapeando"
+      />
+    </div>
+
+    <script>
+      function createHeart() {
+        const container = document.getElementById("hearts-container");
+
+        if (!container) {
+          return;
+        }
+
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+
+        const size = Math.random() * 50;
+        const leftPos = Math.random() * 100;
+        const duration = Math.random() * 2 + 4;
+        const delay = Math.random() * 2;
+
+        heart.style.fontSize = `${size}px`;
+        heart.style.left = `${leftPos}%`;
+        heart.style.animationDuration = `${duration}s`;
+        heart.style.animationDelay = `${delay}s`;
+
+        container.appendChild(heart);
+
+        setTimeout(() => heart.remove(), (duration + delay) * 1000);
+      }
+
+      setInterval(createHeart, 150);
+
+      const yesButton = document.getElementById("yes-button");
+      const noButton = document.getElementById("no-button");
+      const questionCard = document.getElementById("question-card");
+      const celebrationCard = document.getElementById("celebration-card");
+
+      let isAbsolutePositioned = false;
+
+      function moveNoButton() {
+        if (!isAbsolutePositioned) {
+          const noButtonRect = noButton.getBoundingClientRect();
+
+          noButton.style.position = "fixed";
+          noButton.style.left = `${noButtonRect.left}px`;
+          noButton.style.top = `${noButtonRect.top}px`;
+          noButton.style.margin = "0";
+
+          isAbsolutePositioned = true;
+        }
+
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        const noButtonWidth = noButton.offsetWidth;
+        const noButtonHeight = noButton.offsetHeight;
+
+        const safetyMargin = 24;
+
+        const minX = safetyMargin;
+        const maxX = windowWidth - noButtonWidth - safetyMargin;
+        const minY = safetyMargin;
+        const maxY = windowHeight - noButtonHeight - safetyMargin;
+
+        const safeMaxX = Math.max(minX, maxX);
+        const safeMaxY = Math.max(minY, maxY);
+
+        const randomX =
+          Math.floor(Math.random() * (safeMaxX - minX + 1)) + minX;
+        const randomY =
+          Math.floor(Math.random() * (safeMaxY - minY + 1)) + minY;
+
+        noButton.style.left = `${randomX}px`;
+        noButton.style.top = `${randomY}px`;
+        noButton.style.transition = "all 0.15s cubic-bezier(0.4, 0, 0.2, 1)";
+      }
+
+      noButton.addEventListener("mouseenter", moveNoButton);
+      noButton.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        moveNoButton();
+      });
+      noButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        moveNoButton();
+      });
+
+      yesButton.addEventListener("click", () => {
+        questionCard.classList.add("hidden");
+        celebrationCard.classList.remove("hidden");
+
+        const confettiDuration = 6 * 1000;
+        const confettiTimeout = Date.now() + confettiDuration;
+
+        (function frame() {
+          confetti({
+            particleCount: 2,
+            angle: 60,
+            spread: 120,
+            origin: { x: 0 },
+            colors: ["#f43f5e", "#fb7185", "#f472b6", "#fef08a"],
+          });
+          confetti({
+            particleCount: 2,
+            angle: 120,
+            spread: 120,
+            origin: { x: 1 },
+            colors: ["#f43f5e", "#fb7185", "#f472b6", "#fef08a"],
+          });
+
+          if (Date.now() < confettiTimeout) {
+            requestAnimationFrame(frame);
+          }
+        })();
+      });
+    </script>
+  </body>
+</html>
