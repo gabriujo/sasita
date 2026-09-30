@@ -14,8 +14,23 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap"
+      rel="stylesheet"
+    />
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              playfair: ['"Playfair Display"', "serif"],
+            },
+          },
+        },
+      };
+    </script>
 
     <style>
       @keyframes float {
@@ -55,6 +70,32 @@
         position: absolute;
         user-select: none;
       }
+
+      .voucher {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        mask-image:
+          radial-gradient(circle at 40px 10px, transparent 10px, red 10.5px),
+          radial-gradient(closest-side circle at 50%, red 99%, transparent 100%);
+        -webkit-mask-image:
+          radial-gradient(circle at 40px 10px, transparent 10px, red 10.5px),
+          radial-gradient(closest-side circle at 50%, red 99%, transparent 100%);
+        mask-size:
+          100%,
+          4px 12px;
+        -webkit-mask-size:
+          100%,
+          4px 12px;
+        mask-repeat: repeat, repeat-y;
+        -webkit-mask-repeat: repeat, repeat-y;
+        mask-position:
+          0 -10px,
+          38px;
+        -webkit-mask-position:
+          0 -10px,
+          38px;
+        mask-composite: subtract;
+        -webkit-mask-composite: source-out;
+      }
     </style>
   </head>
 
@@ -66,7 +107,7 @@
 
     <div
       id="question-card"
-      class="relative z-10 bg-white/90 p-12 rounded-3xl shadow-2xl max-w-xl w-full text-center"
+      class="relative z-10 bg-white/80 p-12 rounded-3xl shadow-2xl max-w-xl w-full text-center"
     >
       <div class="mb-6 flex justify-center">
         <div
@@ -105,15 +146,13 @@
 
     <div
       id="celebration-card"
-      class="hidden relative z-10 bg-white/90 p-12 rounded-3xl shadow-2xl max-w-xl w-full text-center"
+      class="hidden relative z-10 bg-white/80 p-12 rounded-3xl shadow-2xl max-w-xl w-full text-center"
     >
-      <div class="mb-6 flex justify-center">
-        <div
-          class="w-24 h-24 bg-pink-100 rounded-full flex items-center justify-center text-5xl shadow-inner animate-bounce"
-        >
-          🥳
-        </div>
-      </div>
+      <img
+        class="inline-block rounded-3xl w-[140px] mb-6"
+        src="https://media.tenor.com/jNPkO5whg_QAAAAM/cat-dancing.gif"
+        alt="Gato rapeando"
+      />
 
       <h1 class="text-2xl sm:text-3xl font-bold text-rose-600 mb-3">
         ¡Sabía que dirías que sí, Sasita! 🥰
@@ -124,11 +163,53 @@
         universo entero! ❤️
       </p>
 
-      <img
-        class="inline-block rounded-3xl"
-        src="https://media.tenor.com/jNPkO5whg_QAAAAM/cat-dancing.gif"
-        alt="Gato rapeando"
-      />
+      <div
+        class="voucher relative rounded-3xl w-full mt-8 overflow-hidden text-left"
+      >
+        <div
+          class="absolute -top-24 -right-24 w-72 h-72 rounded-full blur-3xl opacity-30 transition-all duration-700 bg-rose-500"
+        ></div>
+        <div
+          class="absolute -bottom-24 -left-24 w-72 h-72 rounded-full blur-3xl opacity-25 transition-all duration-700 bg-amber-500"
+        ></div>
+
+        <div class="relative p-6 pl-16">
+          <div>
+            <span
+              class="px-4 py-2 rounded-full text-[11px] font-bold uppercase bg-rose-500/20 mb-3 text-rose-300 border border-rose-500/30 flex items-center gap-1.5 w-max"
+            >
+              <span id="voucher-icon">🌹</span>
+              <span id="voucher-badge-text">Vale de Regalo Especial</span>
+            </span>
+          </div>
+
+          <h3
+            class="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight leading-tight mt-3 mb-3"
+          >
+            Una ensalada de besitos y manoseadas
+          </h3>
+
+          <div class="flex gap-8">
+            <div>
+              <span class="text-xs uppercase text-slate-400 mr-1">Para:</span>
+              <span class="text-xs uppercase font-bold text-amber-400">
+                Sasita
+              </span>
+            </div>
+
+            <div>
+              <span class="text-xs uppercase text-slate-400 mr-1">De:</span>
+              <span class="text-xs uppercase font-bold text-amber-400">
+                Tu fan #1
+              </span>
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-300 italic mt-3 text-pretty">
+            Válido para canjear en cualquier momento del año previa reserva.
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
