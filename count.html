@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>"
+    />
+    <title>Contador de días con mi novie Sasita</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              playfair: ['"Playfair Display"', "serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      @keyframes float {
+        0% {
+          opacity: 1;
+          transform: translateY(0vh) rotate(0deg);
+        }
+
+        100% {
+          opacity: 0;
+          transform: translateY(-100vh) rotate(360deg);
+        }
+      }
+
+      html {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #fbcfe8 0%,
+          #ff96cc 50%,
+          #ff6e8d 100%
+        );
+        font-family: "Poppins", sans-serif;
+        overflow: hidden;
+        text-wrap: balance;
+      }
+
+      .heart {
+        animation: float linear infinite;
+        bottom: -10vh;
+        color: #f43f5e;
+        pointer-events: none;
+        position: absolute;
+        user-select: none;
+      }
+
+      .counter {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      }
+    </style>
+  </head>
+
+  <body class="h-dvh w-dvw flex items-center justify-center relative p-4">
+    <div
+      id="hearts-container"
+      class="absolute inset-0 overflow-hidden pointer-events-none z-0"
+    ></div>
+
+    <div
+      class="relative z-10 bg-white/80 p-12 rounded-3xl shadow-2xl max-w-xl w-full text-center"
+    >
+      <img
+        class="inline-block rounded-3xl w-[140px] mb-6"
+        src="./cat-smiling.gif"
+        alt="Gato rapeando"
+      />
+
+      <h1 class="text-2xl sm:text-3xl font-bold text-rose-600 mb-3">
+        ¡Este es nuestro contador de días como novies! 😍
+      </h1>
+
+      <p class="text-slate-500 text-sm mb-8">
+        Desde el
+        <span class="font-bold text-slate-800">lunes 12 de octubre de 2026</span
+        >, hasta <span class="font-bold text-slate-800">infinito</span> ✨
+      </p>
+
+      <div
+        class="counter relative rounded-3xl mt-8 overflow-hidden -mx-6 -mb-6"
+      >
+        <div
+          class="absolute -top-24 -right-24 w-96 h-96 rounded-full blur-3xl opacity-30 bg-rose-500"
+        ></div>
+        <div
+          class="absolute -bottom-24 -left-24 w-64 h-64 rounded-full blur-3xl opacity-25 bg-amber-500"
+        ></div>
+
+        <div class="relative p-6">
+          <span
+            class="px-4 py-2 rounded-full text-[11px] font-bold uppercase bg-rose-500/20 mb-3 text-rose-300 border border-rose-500/30 flex items-center gap-1.5 w-max m-auto"
+          >
+            <span>⏳</span>
+            <span>Contador de días</span>
+          </span>
+
+          <h3
+            class="text-1xl font-serif text-white tracking-tight leading-tight mt-3 mb-5"
+          >
+            <span id="counter-value" class="text-6xl font-bold"></span>
+            <span id="counter-label"></span>
+          </h3>
+
+          <div class="text-xs text-slate-400 italic mt-3 text-pretty">
+            Para los demás es solo un número que sube en una pantalla, para mí
+            es la cuenta hacia la eternidad que ya hemos empezado a construir.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function createHeart() {
+        const container = document.getElementById("hearts-container");
+
+        if (!container) {
+          return;
+        }
+
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+
+        const size = Math.random() * 40;
+        const leftPos = Math.random() * 100;
+        const duration = Math.random() * 2 + 4;
+        const delay = Math.random() * 2;
+
+        heart.style.fontSize = `${size}px`;
+        heart.style.left = `${leftPos}%`;
+        heart.style.animationDuration = `${duration}s`;
+        heart.style.animationDelay = `${delay}s`;
+
+        container.appendChild(heart);
+
+        setTimeout(() => heart.remove(), (duration + delay) * 1000);
+      }
+
+      setInterval(createHeart, 150);
+
+      const counterValue = document.getElementById("counter-value");
+      const counterLabel = document.getElementById("counter-label");
+      const startDate = new Date("2026-10-12");
+      const dateDiff = new Date() - startDate;
+      const counter = Math.floor(dateDiff / (1000 * 60 * 60 * 24));
+
+      counterValue.innerHTML = counter;
+      counterLabel.innerHTML = counter === 1 ? "día" : "días";
+    </script>
+  </body>
+</html>
