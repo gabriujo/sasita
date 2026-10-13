@@ -172,6 +172,25 @@
 
       counterValue.innerHTML = counter;
       counterLabel.innerHTML = counter === 1 ? "día" : "días";
+
+      (function frame() {
+        confetti({
+          particleCount: 2,
+          angle: 60,
+          spread: 120,
+          origin: { x: 0 },
+          colors: ["#f43f5e", "#fb7185", "#f472b6", "#fef08a"],
+        });
+        confetti({
+          particleCount: 2,
+          angle: 120,
+          spread: 120,
+          origin: { x: 1 },
+          colors: ["#f43f5e", "#fb7185", "#f472b6", "#fef08a"],
+        });
+
+        requestAnimationFrame(frame);
+      })();
     </script>
   </body>
 </html>
